@@ -112,7 +112,7 @@ export function getGenderBreakdownOfFordOwners(customers) {
     //first filter so we just have the ford users
     //then hashmap reduce to get the gender breakdown object
     const fordCustomers = customers.filter(customer => customer.car_make === 'Ford');
-    
+
     const fordGenderObj = fordCustomers.reduce((acc, customer) => {
         if(acc[customer.gender]) {
             acc[customer.gender]++;
@@ -149,7 +149,46 @@ Output:
 */
 
 export function getGenderBreakdownOfEachCar(customers) {
-    return true;
+
+    const carBrands = customers.reduce((acc, customer) => {
+        if(acc.includes(customer.car_make)) {
+            null;
+        }
+        else {
+            acc.push(customer.car_make);
+        }
+        return acc;
+    }, []);
+
+    // we map through our brands
+    // for each brand we reduce through the customer data
+    // if the brand === customer.car_make
+    // then do the stuff we did before to make the gender object
+    // then when done mapping through each brand return an object with they brand as the key and the gender breakdown object as the value
+    
+    const genderBreakdownByMake = carBrands.map(brand => {
+        const brandGenderObj = customers.reduce((acc, customer) => {
+            if(brand === customer.car_make) {
+                if(acc[customer.gender]) {
+                    acc[customer.gender]++;
+                }
+                else {
+                    acc[customer.gender] = 1;
+                }
+            }
+        // console.log(acc);
+            return acc;
+        }, {});
+
+        // return brandGenderObj;
+        return {
+            [brand]: brandGenderObj
+        };
+    });
+    
+    return genderBreakdownByMake;
+
+
 }
 
 /* 
@@ -164,7 +203,34 @@ Output:
 
 
 export function getAllCoolFactorsOfEachCar(customers) {
-    return true;
+    // get our array of car brands
+    //map through the brands
+    // for each brand reduce through our customer data
+    // if car brand === customer.car_make then push the cool factor into an array
+    // (or spread old accumulator out and add the new cool factor value)
+
+    //OR
+
+    //reduce through our customer data
+    //for each entry - the accumular returns an array of objects with brand as key and array of cool factors as value
+    //needs to be a conditional check to see if that brand as already been made - if not the entry for it gets initialized - if so just push the cool factor into the array
+
+    const object = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+            //if the .brand already exists in our acc object, push the new cool factor in the array of that brands value
+            acc[customer.car_make].push(customer.cool_factor);
+        }
+        else {
+            //creates the .brand in our object gives it the value of an array of the first cool factor
+            acc[customer.car_make] = [customer.cool_factor];
+            
+        }
+
+        return acc;
+    }, {});
+
+
+    return object;
 }
 
 /* 
@@ -176,8 +242,34 @@ Output:
 }
 */
 
+// in needs to generate an average everytime it goes through
+// but to do so we need to know how may items to divide by
+// so we could either keep track of a count as another key in our object but our data model doesnt have that
+// or we could keep it as an array and divide by length of the array but then we would have to do this after - not after each pass - right?
+
 export function getAverageCoolFactorOfEachCar(customers) {
-    return true;
+    const object = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+        //if the .brand already exists in our acc object, push the new cool factor in the array of that brands value
+            acc[customer.car_make].push(customer.cool_factor);
+            // const sum = acc[customer.car_make].reduce((acc, value)=> {
+            //     acc = acc + value;
+            //     return acc;
+            // }, 0);
+            // const ave = sum / acc[customer.car_make].length;
+            // console.log(ave);
+        }
+        else {
+        //creates the .brand in our object gives it the value of an array of the first cool factor
+            acc[customer.car_make] = [customer.cool_factor];
+        
+        }
+
+        return acc;
+    }, {});
+
+
+    return object;
 }
 
 
