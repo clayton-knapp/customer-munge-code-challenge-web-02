@@ -1,11 +1,19 @@
+// import customers from './data.js';
+
 /* 
 Output: 
 ['Hello Suzie Summerson!', 'Hello Cacilia Caramuscia', 'Hello Mattie Mungane' etc]
 */
 
 export function greetUsers(customers) {
-    return true;
+  //map through and make an array returning a string with 'Hello first_name last_name!'
+    const greetings = customers.map((customer) =>
+        `Hello ${customer.first_name} ${customer.last_name}!`
+    );
+    return greetings;
 }
+
+
 
 /* 
 Output: 
