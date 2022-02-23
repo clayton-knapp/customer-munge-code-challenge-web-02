@@ -401,6 +401,7 @@ test('getAllCoolFactorsOfEachCar', (expect) => {
     expect.deepEqual(actual, expected);
 });
 
+// RESULT IS AN ARRAY NOT AN OBJECT
 test('getAverageCoolFactorOfEachCar', (expect) => {
     const expected = [
         {

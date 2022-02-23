@@ -150,6 +150,23 @@ Output:
 
 export function getGenderBreakdownOfEachCar(customers) {
 
+    // const obj = customers.reduce((acc, customer) => {
+    //     if(acc[customer.car_make]) {
+    //         if(acc[customer.car_make].Male) {
+    //             console.log('hello');
+    //         }
+
+    //     }
+    //     else {
+    //         const obj = { [customer.gender]: 1 };
+    //         acc[customer.car_make] = obj;
+    //     }
+    //     return acc;
+    // }, {});
+
+    // return obj;
+
+
     const carBrands = customers.reduce((acc, customer) => {
         if(acc.includes(customer.car_make)) {
             null;
@@ -218,7 +235,8 @@ export function getAllCoolFactorsOfEachCar(customers) {
     const object = customers.reduce((acc, customer) => {
         if(acc[customer.car_make]) {
             //if the .brand already exists in our acc object, push the new cool factor in the array of that brands value
-            acc[customer.car_make].push(customer.cool_factor);
+            // acc[customer.car_make].push(customer.cool_factor);
+            acc[customer.car_make] = [...acc[customer.car_make], customer.cool_factor]; //more immutable
         }
         else {
             //creates the .brand in our object gives it the value of an array of the first cool factor
