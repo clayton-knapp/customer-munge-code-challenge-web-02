@@ -9,7 +9,9 @@ import {
     getGenderBreakdownOfEachCar,
     getAllCoolFactorsOfEachCar,
     getAverageCoolFactorOfEachCar,
-    makeAgeBrackets
+    makeAgeBrackets,
+    getCoolFactorsByAgeBracket,
+    getAverageCoolFactorByAgeBracket
 } from '../functions.js';
 import customers from './data.js';
 
@@ -399,23 +401,101 @@ test('getAllCoolFactorsOfEachCar', (expect) => {
     expect.deepEqual(actual, expected);
 });
 
-skip('getAverageCoolFactorOfEachCar', (expect) => {
-    const expected = {
-        ford: 5.4,
-        mercedes:  8.5,
-        honda: 2.3
-    };
+test('getAverageCoolFactorOfEachCar', (expect) => {
+    const expected = [
+        {
+            'Lexus': 4
+        },
+        {
+            'Volvo': 6.5
+        },
+        {
+            'Mitsubishi': 4
+        },
+        {
+            'Chrysler': 6.5
+        },
+        {
+            'Alfa Romeo': 6
+        },
+        {
+            'Subaru': 2
+        },
+        {
+            'Chevrolet': 5
+        },
+        {
+            'Mercury': 2
+        },
+        {
+            'Scion': 2
+        },
+        {
+            'Oldsmobile': 5
+        },
+        {
+            'Toyota': 3.5
+        },
+        {
+            'Buick': 3.5
+        },
+        {
+            'GMC': 7.5
+        },
+        {
+            'Dodge': 9.333333333333334
+        },
+        {
+            'Mercedes-Benz': 3
+        },
+        {
+            'Cadillac': 4
+        },
+        {
+            'Pontiac': 8
+        },
+        {
+            'Eagle': 9
+        },
+        {
+            'Ford': 5.666666666666667
+        },
+        {
+            'Mazda': 3
+        },
+        {
+            'Audi': 1
+        },
+        {
+            'BMW': 5
+        },
+        {
+            'Peugeot': 1
+        },
+        {
+            'Porsche': 7.5
+        },
+        {
+            'Jeep': 5
+        },
+        {
+            'Infiniti': 2
+        },
+        {
+            'Kia': 2
+        }
+    ];
 
     const actual = getAverageCoolFactorOfEachCar(customers);
 
-    expect.equal(actual, expected);
+    expect.deepEqual(actual, expected);
 });
 
 test('makeAgeBrackets', (expect) => {
     const expected = {
         '0-9': 6,
         '10-19': 8,
-        '100+': 2,
+        '100-109': 2,
         '20-29': 2,
         '30-39': 7,
         '40-49': 2,
@@ -431,18 +511,121 @@ test('makeAgeBrackets', (expect) => {
     expect.deepEqual(actual, expected);
 });
 
-skip('getCoolFactorsByAgeBracket', (expect) => {
-    const expected = true;
+test('getCoolFactorsByAgeBracket', (expect) => {
+    const expected = {
+        '0-9': [
+            4,
+            1,
+            3,
+            9,
+            10,
+            8
+        ],
+        '10-19': [
+            6,
+            2,
+            10,
+            7,
+            3,
+            1,
+            8,
+            3
+        ],
+        '100-109': [
+            8,
+            5
+        ],
+        '20-29': [
+            10,
+            5
+        ],
+        '30-39': [
+            4,
+            9,
+            9,
+            8,
+            2,
+            5,
+            2
+        ],
+        '40-49': [
+            2,
+            6
+        ],
+        '50-59': [
+            5,
+            4,
+            6,
+            3,
+            10
+        ],
+        '60-69': [
+            8
+        ],
+        '70-79': [
+            4,
+            4,
+            2
+        ],
+        '80-89': [
+            2,
+            2
+        ],
+        '90-99': [
+            9,
+            2,
+            8,
+            1,
+            1,
+            1,
+            7
+        ]
+    };
 
-    const actual = greetUsers();
+    const actual = getCoolFactorsByAgeBracket(customers);
 
-    expect.equal(actual, expected);
+    expect.deepEqual(actual, expected);
 });
 
-skip('getAverageCoolFactorByAgeBracket', (expect) => {
-    const expected = true;
+//HOWEVER EXPECTED IS AN ARRAY NOT AN OBJECT
+test('getAverageCoolFactorByAgeBracket', (expect) => {
+    const expected = [
+        {
+            '70-79': 3.3333333333333335
+        },
+        {
+            '90-99': 4.142857142857143
+        },
+        {
+            '30-39': 5.571428571428571
+        },
+        {
+            '10-19': 5
+        },
+        {
+            '60-69': 8
+        },
+        {
+            '40-49': 4
+        },
+        {
+            '0-9': 5.833333333333333
+        },
+        {
+            '50-59': 5.6
+        },
+        {
+            '100-109': 6.5
+        },
+        {
+            '20-29': 7.5
+        },
+        {
+            '80-89': 2
+        }
+    ];
 
-    const actual = true;
+    const actual = getAverageCoolFactorByAgeBracket(customers);
 
-    expect.equal(actual, expected);
+    expect.deepEqual(actual, expected);
 });

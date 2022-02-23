@@ -248,10 +248,11 @@ Output:
 // or we could keep it as an array and divide by length of the array but then we would have to do this after - not after each pass - right?
 
 export function getAverageCoolFactorOfEachCar(customers) {
-    const object = customers.reduce((acc, customer) => {
+    const countAndTotalObjs = customers.reduce((acc, customer) => {
         if(acc[customer.car_make]) {
         //if the .brand already exists in our acc object, push the new cool factor in the array of that brands value
-            acc[customer.car_make].push(customer.cool_factor);
+            acc[customer.car_make].total = acc[customer.car_make].total + customer.cool_factor;
+            acc[customer.car_make].count++;
             // const sum = acc[customer.car_make].reduce((acc, value)=> {
             //     acc = acc + value;
             //     return acc;
@@ -261,15 +262,23 @@ export function getAverageCoolFactorOfEachCar(customers) {
         }
         else {
         //creates the .brand in our object gives it the value of an array of the first cool factor
-            acc[customer.car_make] = [customer.cool_factor];
+            acc[customer.car_make] = {};
+            acc[customer.car_make].total = customer.cool_factor;
+            acc[customer.car_make].count = 1;
         
         }
 
         return acc;
     }, {});
 
+    const aveArr = Object.entries(countAndTotalObjs)
+        .map(entry => ({
+            [entry[0]]: entry[1].total / entry[1].count
+        }));
+    // console.log(aveArr);
 
-    return object;
+    return aveArr;
+
 }
 
 
@@ -294,103 +303,17 @@ Output:
 
 export function makeAgeBrackets(customers) {
     const object = customers.reduce((acc, customer) => {
-        if(customer.age >= 0 && customer.age <= 9) {
-            const ageRange = '0-9';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 10 && customer.age <= 19) {
-            const ageRange = '10-19';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 20 && customer.age <= 29) {
-            const ageRange = '20-29';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 30 && customer.age <= 39) {
-            const ageRange = '30-39';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 40 && customer.age <= 49) {
-            const ageRange = '40-49';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 50 && customer.age <= 59) {
-            const ageRange = '50-59';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 60 && customer.age <= 69) {
-            const ageRange = '60-69';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 70 && customer.age <= 79) {
-            const ageRange = '70-79';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 80 && customer.age <= 89) {
-            const ageRange = '80-89';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 90 && customer.age <= 99) {
-            const ageRange = '90-99';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
-            }
-        }
-        if(customer.age >= 100) {
-            const ageRange = '100+';
-            if(acc[ageRange]) {
-                acc[ageRange]++;
-            }
-            else {
-                acc[ageRange] = 1;
+        for(let i = 0; i < 11; i++) {
+            const bottom = i * 10;
+            const top = bottom + 9;
+            if(customer.age >= bottom && customer.age <= top) {
+                const ageRange = `${bottom}-${top}`;
+                if(acc[ageRange]) {
+                    acc[ageRange]++;
+                }
+                else {
+                    acc[ageRange] = 1;
+                }
             }
         }
         return acc;
@@ -401,7 +324,6 @@ export function makeAgeBrackets(customers) {
 
 /* 
 Output: 
-// break the customers into age demographic blocks. For example, this says there are 55 people between 10 and 19, 38 people between 20 and 29, etc
 {
     10: [3, 5, 4, 4, 7, 5],
     20: [8, 5, 6, 8, 3, 9],
@@ -409,16 +331,35 @@ Output:
     40: [2, 4, 4, 3, 7, 1],
     etc . . .
 }
+
+if the age falls in the range then push the cool factor into an array for the value
 */
 
 export function getCoolFactorsByAgeBracket(customers) {
-    return true;
+    const object = customers.reduce((acc, customer) => {
+        for(let i = 0; i < 11; i++) {
+            const bottom = i * 10;
+            const top = bottom + 9;
+            if(customer.age >= bottom && customer.age <= top) {
+                const ageRange = `${bottom}-${top}`;
+                if(acc[ageRange]) {
+                    acc[ageRange] = [...acc[ageRange], customer.cool_factor];
+                }
+                else {
+                    acc[ageRange] = [customer.cool_factor];
+                }
+            }
+        }
+        return acc;
+
+    }, {});
+    return object;
 }
 
 
 /* 
 Output: 
-// break the customers into age demographic blocks. For example, this says there are 55 people between 10 and 19, 38 people between 20 and 29, etc
+// break the customers into age demographic blocks. \
 {
     10: 5.6,
     20: 3.1
@@ -429,6 +370,49 @@ Output:
 */
 
 export function getAverageCoolFactorByAgeBracket(customers) {
-    return true;
+
+    // const object = getCoolFactorsByAgeBracket(customers);
+    // const result = Object.values(object);
+
+
+    const countAndTotalObjs = customers.reduce((acc, customer) => {
+        for(let i = 0; i < 11; i++) {
+            const bottom = i * 10;
+            const top = bottom + 9;
+            if(customer.age >= bottom && customer.age <= top) {
+                const ageRange = `${bottom}-${top}`;
+                if(acc[ageRange]) {
+                    acc[ageRange].total = acc[ageRange].total + customer.cool_factor;
+                    acc[ageRange].count++;
+                }
+                else {
+                    acc[ageRange] = {};
+                    acc[ageRange].total = customer.cool_factor;
+                    acc[ageRange].count = 1;
+                }
+            }
+        }
+        return acc;
+
+    }, {});
+
+    // console.log(Object.entries(countAndTotalObjs));
+
+    const aveArr = Object.entries(countAndTotalObjs)
+        .map(entry => ({
+            [entry[0]]: entry[1].total / entry[1].count
+        }));
+    // console.log(aveArr);
+
+
+    //ATTEMPT TO MAKE ARRAY AN OBJECT
+    // const aveObj = aveArr.reduce((acc, each) => {
+    //     acc = { ...acc, each };
+    //     return acc;
+    // }, {});
+
+    // console.log(aveObj);
+
+    return aveArr;
 }
 
