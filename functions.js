@@ -32,14 +32,26 @@ export function greetUsersOverAge60(customers) {
 }
 
 
+
+
 /* 
 Output: 
 4532
 */
 
 export function addAllAges(customers) {
-    return true;
+    //reduce here to accumulate the sum
+    const sum = customers.reduce((acc, customer) => {
+        acc = acc + customer.age;
+
+        return acc;
+    }, 0);
+
+    return sum;
 }
+
+
+
 
 /* 
 Output: 
@@ -47,7 +59,15 @@ Output:
 */
 
 export function getAverageCoolFactor(customers) {
-    return true;
+    const sum = customers.reduce((acc, customer) => {
+        acc = acc + customer.cool_factor;
+
+        return acc;
+    }, 0);
+
+    const ave = sum / customers.length;
+
+    return ave;
 }
 
 /* 
@@ -61,7 +81,20 @@ Output:
 */
 
 export function getTotalOfEachGender(customers) {
-    return true;
+    const totalGendersObj = customers.reduce((acc, customer) => {
+        //if there is a gender key in the object already that matches increment it
+        if(acc[customer.gender]) {
+            acc[customer.gender]++;
+        } 
+        //else if there is not a gender key in the object yet, then create one with a value 1
+        else {
+            acc[customer.gender] = 1;
+        }
+        //return the whole object accumulator
+        return acc;
+    }, {});
+
+    return totalGendersObj;
 }
 
 /* 
@@ -74,8 +107,24 @@ Output:
  }
 */
 
+
 export function getGenderBreakdownOfFordOwners(customers) {
-    return true;
+    //first filter so we just have the ford users
+    //then hashmap reduce to get the gender breakdown object
+    const fordCustomers = customers.filter(customer => customer.car_make === 'Ford');
+    
+    const fordGenderObj = fordCustomers.reduce((acc, customer) => {
+        if(acc[customer.gender]) {
+            acc[customer.gender]++;
+        }
+        else {
+            acc[customer.gender] = 1;
+        }
+        // console.log(acc);
+        return acc;
+    }, {});
+
+    return fordGenderObj;
 }
 
 //////////////////////////////////////////////////////////
