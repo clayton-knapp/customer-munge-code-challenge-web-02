@@ -288,9 +288,115 @@ Output:
     90: 11,
 }
 */
+// bunch of ifs
+// if the age is between 0-9 advance that count, if doesnt exist then initialize it at 1
+
 
 export function makeAgeBrackets(customers) {
-    return true;
+    const object = customers.reduce((acc, customer) => {
+        if(customer.age >= 0 && customer.age <= 9) {
+            const ageRange = '0-9';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 10 && customer.age <= 19) {
+            const ageRange = '10-19';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 20 && customer.age <= 29) {
+            const ageRange = '20-29';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 30 && customer.age <= 39) {
+            const ageRange = '30-39';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 40 && customer.age <= 49) {
+            const ageRange = '40-49';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 50 && customer.age <= 59) {
+            const ageRange = '50-59';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 60 && customer.age <= 69) {
+            const ageRange = '60-69';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 70 && customer.age <= 79) {
+            const ageRange = '70-79';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 80 && customer.age <= 89) {
+            const ageRange = '80-89';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 90 && customer.age <= 99) {
+            const ageRange = '90-99';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        if(customer.age >= 100) {
+            const ageRange = '100+';
+            if(acc[ageRange]) {
+                acc[ageRange]++;
+            }
+            else {
+                acc[ageRange] = 1;
+            }
+        }
+        return acc;
+
+    }, {});
+    return object;
 }
 
 /* 
