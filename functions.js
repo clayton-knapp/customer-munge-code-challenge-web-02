@@ -148,6 +148,7 @@ Output:
 }
 */
 
+// THIS ONE IS FRIGGIN HARD!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 export function getGenderBreakdownOfEachCar(customers) {
 
     // const obj = customers.reduce((acc, customer) => {
@@ -265,6 +266,45 @@ Output:
 // so we could either keep track of a count as another key in our object but our data model doesnt have that
 // or we could keep it as an array and divide by length of the array but then we would have to do this after - not after each pass - right?
 
+//solved by doing a reduce inside a reduce to bring it down to a object of key/value pairs & reduce the array of coolfactors into a sum that we can divide by arraylength to get average
+export function getAverageCoolFactorOfEachCar2(customers) {
+    const object = customers.reduce((acc, customer) => {
+        if(acc[customer.car_make]) {
+        //if the .brand already exists in our acc object, push the new cool factor in the array of that brands value
+        // acc[customer.car_make].push(customer.cool_factor);
+            acc[customer.car_make] = [...acc[customer.car_make], customer.cool_factor]; //more immutable
+        }
+        else {
+        //creates the .brand in our object gives it the value of an array of the first cool factor
+            acc[customer.car_make] = [customer.cool_factor];
+        
+        }
+
+        return acc;
+    }, {});
+
+
+    // console.log(object);
+    // console.log(Object.entries(object));
+
+    const aveObject = Object.entries(object)
+        .reduce((acc, entry) => {
+            // const sum = entry[1].reduce((acc, eachCoolFactor) => {
+            //     acc = acc + eachCoolFactor;
+            //     return acc;
+            // }, 0);
+            //golfy-er way of writing above by using implicit return no curlies needed
+            const sum = entry[1].reduce((acc, eachCoolFactor) => acc + eachCoolFactor, 0);
+            // console.log(sum);
+            acc = { ...acc, [entry[0]]: (sum / entry[1].length) };
+            return acc;
+        }, {});
+    return aveObject;
+
+
+}
+
+//solved by adding a count key/value and then dividing sum by count later
 export function getAverageCoolFactorOfEachCar(customers) {
     const countAndTotalObjs = customers.reduce((acc, customer) => {
         if(acc[customer.car_make]) {
@@ -289,13 +329,21 @@ export function getAverageCoolFactorOfEachCar(customers) {
         return acc;
     }, {});
 
-    const aveArr = Object.entries(countAndTotalObjs)
-        .map(entry => ({
-            [entry[0]]: entry[1].total / entry[1].count
-        }));
+    //this is how you keep it an array
+    // const aveArr = Object.entries(countAndTotalObjs)
+    //     .map(entry => ({
+    //         [entry[0]]: entry[1].total / entry[1].count
+    //     }));
     // console.log(aveArr);
 
-    return aveArr;
+    // this is how you make it an object with key value pairs
+    const aveObj = Object.entries(countAndTotalObjs)
+        .reduce((acc, entry) => {
+            acc = { ...acc, [entry[0]]: (entry[1].total / entry[1].count) };
+            return acc;
+        }, {});
+
+    return aveObj;
 
 }
 
@@ -402,11 +450,13 @@ export function getAverageCoolFactorByAgeBracket(customers) {
                 if(acc[ageRange]) {
                     acc[ageRange].total = acc[ageRange].total + customer.cool_factor;
                     acc[ageRange].count++;
+                    acc[ageRange].ave = acc[ageRange].total / acc[ageRange].count;
                 }
                 else {
                     acc[ageRange] = {};
                     acc[ageRange].total = customer.cool_factor;
                     acc[ageRange].count = 1;
+                    acc[ageRange].ave = acc[ageRange].total;
                 }
             }
         }
@@ -416,21 +466,63 @@ export function getAverageCoolFactorByAgeBracket(customers) {
 
     // console.log(Object.entries(countAndTotalObjs));
 
-    const aveArr = Object.entries(countAndTotalObjs)
-        .map(entry => ({
-            [entry[0]]: entry[1].total / entry[1].count
-        }));
+    // const aveArr = Object.entries(countAndTotalObjs)
+    //     .map(entry => ({
+    //         [entry[0]]: entry[1].total / entry[1].count
+    //     }));
     // console.log(aveArr);
+    // console.log(Object.entries(countAndTotalObjs));
 
+    const aveObj2 = Object.entries(countAndTotalObjs)
+        .reduce((acc, entry) => {
+            acc = { ...acc, [entry[0]]: entry[1].ave };
+            return acc;
+        }, {});
 
-    //ATTEMPT TO MAKE ARRAY AN OBJECT
-    // const aveObj = aveArr.reduce((acc, each) => {
-    //     acc = { ...acc, each };
-    //     return acc;
-    // }, {});
+    // console.log(Object.entries(countAndTotalObjs));
+    // ATTEMPT TO MAKE ARRAY AN OBJECT
+    // const aveObj = Object.entries(countAndTotalObjs)
+    //     .reduce((acc, entry) => {
+    //         acc = { ...acc, [entry[0]]: entry[1].total / entry[1].count };
+    //         return acc;
+    //     }, {});
 
     // console.log(aveObj);
 
-    return aveArr;
+    return aveObj2;
 }
 
+//redo to not use count, but use array length for average - also get rid of conditional to determine age range and use some math function instead
+export function getAverageCoolFactorByAgeBracket2(customers) {
+    const objWithArrayOfCoolFactors = customers.reduce((acc, customer) => {
+        function returnBracket(customer) {
+            const bottom = Math.floor((customer.age / 10)) * 10;
+            const top = bottom + 9;
+            return `${bottom}-${top}`;
+        }
+        const bracket = returnBracket(customer);
+        if(acc[bracket]) {
+            acc[bracket] = [...acc[bracket], customer.cool_factor];
+            // acc[bracket].push(customer.cool_factor);
+        }
+        else {
+            acc[bracket] = [customer.cool_factor];
+        }
+        return acc;
+    }, {});
+
+    // console.log(objWithArrayOfCoolFactors);
+    // console.log(Object.entries(objWithArrayOfCoolFactors));
+
+    const objWithAveCoolFactors = Object.entries(objWithArrayOfCoolFactors)
+        .reduce((acc, entry) => {
+            const sum = entry[1].reduce((acc, value) => acc + value, 0);
+            acc = { ...acc, [entry[0]]: sum / [entry[1].length] };
+            return acc;
+        }, {});
+
+
+    // console.log(objWithAveCoolFactors);
+    return objWithAveCoolFactors;
+
+}

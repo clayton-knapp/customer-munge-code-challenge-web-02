@@ -11,7 +11,9 @@ import {
     getAverageCoolFactorOfEachCar,
     makeAgeBrackets,
     getCoolFactorsByAgeBracket,
-    getAverageCoolFactorByAgeBracket
+    getAverageCoolFactorByAgeBracket,
+    getAverageCoolFactorOfEachCar2,
+    getAverageCoolFactorByAgeBracket2
 } from '../functions.js';
 import customers from './data.js';
 
@@ -138,6 +140,7 @@ test('getGenderBreakdownOfFordOwners', (expect) => {
     expect.deepEqual(actual, expected);
 });
 
+// ! THIS ONE IS FRIGGIN HARD!!!!!!!!!! - Do we want it as a giant object?
 test('getGenderBreakdownOfEachCar', (expect) => {
     const expected = [
         {
@@ -401,93 +404,75 @@ test('getAllCoolFactorsOfEachCar', (expect) => {
     expect.deepEqual(actual, expected);
 });
 
-// RESULT IS AN ARRAY NOT AN OBJECT
+// RESULT IS AN OBJECT OF KEY/VALUE PAIRS √
 test('getAverageCoolFactorOfEachCar', (expect) => {
-    const expected = [
-        {
-            'Lexus': 4
-        },
-        {
-            'Volvo': 6.5
-        },
-        {
-            'Mitsubishi': 4
-        },
-        {
-            'Chrysler': 6.5
-        },
-        {
-            'Alfa Romeo': 6
-        },
-        {
-            'Subaru': 2
-        },
-        {
-            'Chevrolet': 5
-        },
-        {
-            'Mercury': 2
-        },
-        {
-            'Scion': 2
-        },
-        {
-            'Oldsmobile': 5
-        },
-        {
-            'Toyota': 3.5
-        },
-        {
-            'Buick': 3.5
-        },
-        {
-            'GMC': 7.5
-        },
-        {
-            'Dodge': 9.333333333333334
-        },
-        {
-            'Mercedes-Benz': 3
-        },
-        {
-            'Cadillac': 4
-        },
-        {
-            'Pontiac': 8
-        },
-        {
-            'Eagle': 9
-        },
-        {
-            'Ford': 5.666666666666667
-        },
-        {
-            'Mazda': 3
-        },
-        {
-            'Audi': 1
-        },
-        {
-            'BMW': 5
-        },
-        {
-            'Peugeot': 1
-        },
-        {
-            'Porsche': 7.5
-        },
-        {
-            'Jeep': 5
-        },
-        {
-            'Infiniti': 2
-        },
-        {
-            'Kia': 2
-        }
-    ];
+    const expected = {
+        'Alfa Romeo': 6,
+        'Audi': 1,
+        'BMW': 5,
+        'Buick': 3.5,
+        'Cadillac': 4,
+        'Chevrolet': 5,
+        'Chrysler': 6.5,
+        'Dodge': 9.333333333333334,
+        'Eagle': 9,
+        'Ford': 5.666666666666667,
+        'GMC': 7.5,
+        'Infiniti': 2,
+        'Jeep': 5,
+        'Kia': 2,
+        'Lexus': 4,
+        'Mazda': 3,
+        'Mercedes-Benz': 3,
+        'Mercury': 2,
+        'Mitsubishi': 4,
+        'Oldsmobile': 5,
+        'Peugeot': 1,
+        'Pontiac': 8,
+        'Porsche': 7.5,
+        'Scion': 2,
+        'Subaru': 2,
+        'Toyota': 3.5,
+        'Volvo': 6.5
+    };
 
     const actual = getAverageCoolFactorOfEachCar(customers);
+
+    expect.deepEqual(actual, expected);
+});
+
+test('getAverageCoolFactorOfEachCar2', (expect) => {
+    const expected = {
+        'Alfa Romeo': 6,
+        'Audi': 1,
+        'BMW': 5,
+        'Buick': 3.5,
+        'Cadillac': 4,
+        'Chevrolet': 5,
+        'Chrysler': 6.5,
+        'Dodge': 9.333333333333334,
+        'Eagle': 9,
+        'Ford': 5.666666666666667,
+        'GMC': 7.5,
+        'Infiniti': 2,
+        'Jeep': 5,
+        'Kia': 2,
+        'Lexus': 4,
+        'Mazda': 3,
+        'Mercedes-Benz': 3,
+        'Mercury': 2,
+        'Mitsubishi': 4,
+        'Oldsmobile': 5,
+        'Peugeot': 1,
+        'Pontiac': 8,
+        'Porsche': 7.5,
+        'Scion': 2,
+        'Subaru': 2,
+        'Toyota': 3.5,
+        'Volvo': 6.5
+    };
+
+    const actual = getAverageCoolFactorOfEachCar2(customers);
 
     expect.deepEqual(actual, expected);
 });
@@ -588,45 +573,43 @@ test('getCoolFactorsByAgeBracket', (expect) => {
     expect.deepEqual(actual, expected);
 });
 
-//HOWEVER EXPECTED IS AN ARRAY NOT AN OBJECT
+//MADE RESULT AN OBJECT
 test('getAverageCoolFactorByAgeBracket', (expect) => {
-    const expected = [
-        {
-            '70-79': 3.3333333333333335
-        },
-        {
-            '90-99': 4.142857142857143
-        },
-        {
-            '30-39': 5.571428571428571
-        },
-        {
-            '10-19': 5
-        },
-        {
-            '60-69': 8
-        },
-        {
-            '40-49': 4
-        },
-        {
-            '0-9': 5.833333333333333
-        },
-        {
-            '50-59': 5.6
-        },
-        {
-            '100-109': 6.5
-        },
-        {
-            '20-29': 7.5
-        },
-        {
-            '80-89': 2
-        }
-    ];
+    const expected = {
+        '0-9': 5.833333333333333,
+        '10-19': 5,
+        '100-109': 6.5,
+        '20-29': 7.5,
+        '30-39': 5.571428571428571,
+        '40-49': 4,
+        '50-59': 5.6,
+        '60-69': 8,
+        '70-79': 3.3333333333333335,
+        '80-89': 2,
+        '90-99': 4.142857142857143
+    };
 
     const actual = getAverageCoolFactorByAgeBracket(customers);
+
+    expect.deepEqual(actual, expected);
+});
+
+test('getAverageCoolFactorByAgeBracket2', (expect) => {
+    const expected = {
+        '0-9': 5.833333333333333,
+        '10-19': 5,
+        '100-109': 6.5,
+        '20-29': 7.5,
+        '30-39': 5.571428571428571,
+        '40-49': 4,
+        '50-59': 5.6,
+        '60-69': 8,
+        '70-79': 3.3333333333333335,
+        '80-89': 2,
+        '90-99': 4.142857142857143
+    };
+
+    const actual = getAverageCoolFactorByAgeBracket2(customers);
 
     expect.deepEqual(actual, expected);
 });
